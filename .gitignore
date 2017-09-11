@@ -9,6 +9,9 @@ client/coverage
 # production
 client/build
 
+# es-lint
+.eslintrc
+
 # misc
 .DS_Store
 .env
