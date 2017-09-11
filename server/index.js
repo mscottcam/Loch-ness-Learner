@@ -3,6 +3,7 @@ const express = require('express');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const BearerStrategy = require('passport-http-bearer').Strategy;
+const { User } = require('./models');
 
 let secret = {
   CLIENT_ID: process.env.CLIENT_ID,
@@ -27,10 +28,31 @@ passport.use(
         callbackURL: `/api/auth/google/callback`
     },
     (accessToken, refreshToken, profile, cb) => {
-        // Job 1: Set up Mongo/Mongoose, create a User model which store the
+        // X Job 1: Set up Mongo/Mongoose, create a User model which store the
         // google id, and the access token
         // Job 2: Update this callback to either update or create the user
         // so it contains the correct access token
+        if (!profile) {
+          User
+            .create({
+              googleId: req.body.profile,
+              accessToken: req.body.accessToken
+            })
+            .then(
+              results => {
+                console.log('results: ', results)
+              }
+            )
+            .catch(err => {
+              console.log('It didn\'t work. Too bad')
+            })
+        }
+        User
+          .findOne({googleId: profile}) 
+          .then(user => {
+            console.log('hey I\'m in the user now!')
+          }
+          )
         const user = database[accessToken] = {
             googleId: profile.id,
             accessToken: accessToken
