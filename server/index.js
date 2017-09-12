@@ -34,17 +34,15 @@ passport.use(
             // google id, and the access token
             // Job 2: Update this callback to either update or create the user
             // so it contains the correct access token
-            console.log('GOOGLE ID --------', profile.id)
-            console.log('ACCESS TOKEN ---------', accessToken)
+            // console.log('GOOGLE ID --------', profile.id)
+            // console.log('ACCESS TOKEN ---------', accessToken)
 
             User
-                .find({ googleId: profile.id })
-                .count()
-                .then(count => {
-                    if (count > 0) {
-                        // console.log(user)
-                        return user.accessToken = accessToken
-
+                .findOne({ googleId: profile.id })
+                .then(user => {
+                    if (user) {
+                        user.accessToken = accessToken
+                        return user.save()
                     } else {
                         User
                         .create({
@@ -57,9 +55,7 @@ passport.use(
                         })
                     }
                 })
-
-
-            const user = database[accessToken] = {
+            const user = {
                 googleId: profile.id,
                 accessToken: accessToken
             }
@@ -70,19 +66,27 @@ passport.use(
 passport.use(
     new BearerStrategy(
         (token, done) => {
+            console.log('tokennnnnnnnnn', token)
+            // console.log('accessTokennnnnnnnnnnnn', user.accessToken)
             // Job 3: Update this callback to try to find a user with a
             // matching access token.  If they exist, let em in, if not,
             // don't.
-            // User
-            //     .find({accessToken: token})
+            User
+                .findOne({accessToken: token})
+                .then(user => {
+                    if (!user) {
+                        console.log('userrrrrrrrrrrrr', user)
+                        return done(null, false);
+                    } else {
+                        console.log(user.accessToken)
+                        return done(null, user);}
+                })
+                .catch(err => {
+                    console.error(err)
+                })
             // token = 'uguyf86f78g7g87g8o7t8'
             // console.log('TOKEN', token, '--------')
             // console.log('DATABASE ------------', database, '------->')
-            if (!(token in database)) {
-                // console.log('you do not have access, bro')
-                return done(null, false);
-            }
-            return done(null, database[token]);
         }
     )
 );
