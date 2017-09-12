@@ -6,6 +6,7 @@ const BearerStrategy = require('passport-http-bearer').Strategy;
 const { User } = require('./models');
 const { DATABASE_URL } = require('./config');
 const mongoose = require('mongoose')
+const { words } = require('./words')
 
 let secret = {
     CLIENT_ID: process.env.CLIENT_ID,
@@ -120,7 +121,12 @@ app.get('/api/me',
 
 app.get('/api/questions',
     passport.authenticate('bearer', { session: false }),
-    (req, res) => res.json(['Question 1', 'Question 2'])
+    (req, res) => {
+        let question;
+        let i = 0;
+        question = words[i].question
+        return res.json([question])
+    }
 );
 
 // Serve the built client
