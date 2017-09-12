@@ -49,12 +49,15 @@ export default class QuestionPage extends React.Component {
             <ul className="question-list">
                 {questions}
             </ul>
+
             <form onSubmit={e => this.onSubmit(e)}>
                 <input type='text' placeholder="Your answer here!" 
                 onChange={e => this.onChange(e)}
                 />
                 <button type="submit">Submit Answer</button>
             </form> 
+
+            <a href="/api/auth/logout">logout</a>
             </div>
         );
     }
