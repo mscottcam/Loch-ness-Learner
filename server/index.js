@@ -42,7 +42,7 @@ passport.use(
                 .count()
                 .then(count => {
                     if (count > 0) {
-                        console.log(user)
+                        // console.log(user)
                         return user.accessToken = accessToken
 
                     } else {
@@ -73,7 +73,13 @@ passport.use(
             // Job 3: Update this callback to try to find a user with a
             // matching access token.  If they exist, let em in, if not,
             // don't.
+            // User
+            //     .find({accessToken: token})
+            // token = 'uguyf86f78g7g87g8o7t8'
+            // console.log('TOKEN', token, '--------')
+            // console.log('DATABASE ------------', database, '------->')
             if (!(token in database)) {
+                // console.log('you do not have access, bro')
                 return done(null, false);
             }
             return done(null, database[token]);
