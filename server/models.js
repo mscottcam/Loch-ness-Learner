@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
     googleId: {type: String, required: true},
-    accessToken: {type: String, required: true}
-    // score: {type: Number, required: false},
-    // words: {type: Array, required: false}
+    accessToken: {type: String, required: true},
+    score: {type: Number, required: false},
+    words: {type: Array, required: false}
 })
 
 
