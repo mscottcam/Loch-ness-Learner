@@ -4,7 +4,7 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const BearerStrategy = require('passport-http-bearer').Strategy;
 const { User } = require('./models');
-const {DATABASE_URL} = require('./config');
+const { DATABASE_URL } = require('./config');
 const mongoose = require('mongoose')
 
 let secret = {
@@ -42,8 +42,20 @@ passport.use(
                 .count()
                 .then(count => {
                     if (count > 0) {
-                        console.log('there is a user with that ID!!')
-                    } else { console.log('there is no user at this id') }
+                        console.log(user)
+                        return user.accessToken = accessToken
+
+                    } else {
+                        User
+                        .create({
+                                googleId: profile.id,
+                                accessToken
+                            })
+                        .then(console.log('this worked!'))
+                        .catch(err => {
+                            console.error(err)
+                        })
+                    }
                 })
 
 
@@ -112,7 +124,7 @@ app.get(/^(?!\/api(\/|$))/, (req, res) => {
 });
 
 let server;
-function runServer(databaseUrl=DATABASE_URL, port = 3001) {
+function runServer(databaseUrl = DATABASE_URL, port = 3001) {
     return new Promise((resolve, reject) => {
         mongoose.connect(databaseUrl, err => {
             if (err) {
@@ -121,10 +133,10 @@ function runServer(databaseUrl=DATABASE_URL, port = 3001) {
             server = app.listen(port, () => {
                 resolve();
             })
-            .on('error', err => {
-                mongoose.disconnect()
-                reject(err)
-            });
+                .on('error', err => {
+                    mongoose.disconnect()
+                    reject(err)
+                });
         });
     });
 }
