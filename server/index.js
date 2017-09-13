@@ -66,15 +66,31 @@ passport.use(
 );
 
 passport.use(
-  new BearerStrategy((token, done) => {
-    // Job 3: Update this callback to try to find a user with a
-    // matching access token.  If they exist, let em in, if not,
-    // don't.
-    if (!(token in database)) {
-      return done(null, false);
-    }
-    return done(null, database[token]);
-  })
+  new BearerStrategy(
+      (token, done) => {
+          console.log('tokennnnnnnnnn', token)
+          // console.log('accessTokennnnnnnnnnnnn', user.accessToken)
+          // Job 3: Update this callback to try to find a user with a
+          // matching access token.  If they exist, let em in, if not,
+          // don't.
+          User
+              .findOne({accessToken: token})
+              .then(user => {
+                  if (!user) {
+                      console.log('userrrrrrrrrrrrr', user)
+                      return done(null, false);
+                  } else {
+                      console.log(user.accessToken)
+                      return done(null, user);}
+              })
+              .catch(err => {
+                  console.error(err)
+              })
+          // token = 'uguyf86f78g7g87g8o7t8'
+          // console.log('TOKEN', token, '--------')
+          // console.log('DATABASE ------------', database, '------->')
+      }
+  )
 );
 
 app.get(
