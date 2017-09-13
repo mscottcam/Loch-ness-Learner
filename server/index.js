@@ -57,8 +57,8 @@ passport.use(
     
       const user = (database[accessToken] = {
         googleId: profile.id,
-        accessToken: accessToken,
-        words: words
+        accessToken: accessToken
+        // words: words
       });
       return cb(null, user);
     }
