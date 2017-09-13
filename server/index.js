@@ -143,6 +143,8 @@ function runServer(databaseUrl = DATABASE_URL, port = 3001) {
         mongoose.disconnect()
         reject(err)
       });
+    });
+  }
 
 function closeServer() {
   return new Promise((resolve, reject) => {
