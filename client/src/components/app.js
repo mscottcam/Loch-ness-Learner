@@ -1,5 +1,6 @@
 import React from 'react';
 import * as Cookies from 'js-cookie';
+import {connect} from 'react-redux'
 
 import QuestionPage from './question-page';
 import LoginPage from './login-page';

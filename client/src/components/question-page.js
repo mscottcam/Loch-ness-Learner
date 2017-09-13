@@ -1,5 +1,6 @@
 import React from 'react';
 import * as Cookies from 'js-cookie';
+import {connect} from 'react-redux'
 
 export default class QuestionPage extends React.Component {
     constructor(props) {
