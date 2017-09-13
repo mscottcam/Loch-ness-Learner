@@ -3,31 +3,32 @@ const express = require('express');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const BearerStrategy = require('passport-http-bearer').Strategy;
-const { DATABASE_URL } = require('./config');
 const { User } = require('./models');
-const { words } = require('./words');
+const { DATABASE_URL } = require('./config');
+const mongoose = require('mongoose')
+const { words } = require('./words')
 
 let secret = {
-  CLIENT_ID: process.env.CLIENT_ID,
-  CLIENT_SECRET: process.env.CLIENT_SECRET
-};
+    CLIENT_ID: process.env.CLIENT_ID,
+    CLIENT_SECRET: process.env.CLIENT_SECRET
+}
 
 if (process.env.NODE_ENV != 'production') {
-  secret = require('./secret');
+    secret = require('./secret');
 }
 
 const app = express();
 
-const database = {};
+const database = {
+};
 
 app.use(passport.initialize());
 
 passport.use(
-  new GoogleStrategy(
-    {
-      clientID: secret.CLIENT_ID,
-      clientSecret: secret.CLIENT_SECRET,
-      callbackURL: `/api/auth/google/callback`
+    new GoogleStrategy({
+        clientID: secret.CLIENT_ID,
+        clientSecret: secret.CLIENT_SECRET,
+        callbackURL: `/api/auth/google/callback`
     },
         (accessToken, refreshToken, profile, cb) => {
             // X Job 1: Set up Mongo/Mongoose, create a User model which store the
@@ -47,8 +48,7 @@ passport.use(
                         User
                         .create({
                                 googleId: profile.id,
-                                accessToken,
-                                words
+                                accessToken
                             })
                         .then(console.log('this worked!'))
                         .catch(err => {
@@ -65,83 +65,67 @@ passport.use(
     ));
 
 passport.use(
-  new BearerStrategy(
-      (token, done) => {
-          console.log('tokennnnnnnnnn', token)
-          // console.log('accessTokennnnnnnnnnnnn', user.accessToken)
-          // Job 3: Update this callback to try to find a user with a
-          // matching access token.  If they exist, let em in, if not,
-          // don't.
-          User
-              .findOne({accessToken: token})
-              .then(user => {
-                  if (!user) {
-                      console.log('userrrrrrrrrrrrr', user)
-                      return done(null, false);
-                  } else {
-                      console.log(user.accessToken)
-                      return done(null, user);}
-              })
-              .catch(err => {
-                  console.error(err)
-              })
-          // token = 'uguyf86f78g7g87g8o7t8'
-          // console.log('TOKEN', token, '--------')
-          // console.log('DATABASE ------------', database, '------->')
-      }
-  )
+    new BearerStrategy(
+        (token, done) => {
+            console.log('tokennnnnnnnnn', token)
+            // console.log('accessTokennnnnnnnnnnnn', user.accessToken)
+            // Job 3: Update this callback to try to find a user with a
+            // matching access token.  If they exist, let em in, if not,
+            // don't.
+            User
+                .findOne({accessToken: token})
+                .then(user => {
+                    if (!user) {
+                        console.log('userrrrrrrrrrrrr', user)
+                        return done(null, false);
+                    } else {
+                        console.log(user.accessToken)
+                        return done(null, user);}
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+            // token = 'uguyf86f78g7g87g8o7t8'
+            // console.log('TOKEN', token, '--------')
+            // console.log('DATABASE ------------', database, '------->')
+        }
+    )
 );
 
-app.get(
-  '/api/auth/google',
-  passport.authenticate('google', { scope: ['profile'] })
-);
+app.get('/api/auth/google',
+    passport.authenticate('google', { scope: ['profile'] }));
 
-app.get(
-  '/api/auth/google/callback',
-  passport.authenticate('google', {
-    failureRedirect: '/',
-    session: false
-  }),
-  (req, res) => {
-    res.cookie('accessToken', req.user.accessToken, { expires: 0 });
-    console.log('accessToken_*(&^)&(*(', req.user.accessToken)
-    res.redirect('/');
-  }
+app.get('/api/auth/google/callback',
+    passport.authenticate('google', {
+        failureRedirect: '/',
+        session: false
+    }),
+    (req, res) => {
+        res.cookie('accessToken', req.user.accessToken, { expires: 0 });
+        res.redirect('/');
+    }
 );
 
 app.get('/api/auth/logout', (req, res) => {
-  req.logout();
-  res.clearCookie('accessToken');
-  res.redirect('/');
+    req.logout();
+    res.clearCookie('accessToken');
+    res.redirect('/');
 });
 
-app.get(
-  '/api/me',
-  passport.authenticate('bearer', { session: false }),
-  (req, res) =>
-    res.json({
-      googleId: req.user.googleId
+app.get('/api/me',
+    passport.authenticate('bearer', { session: false }),
+    (req, res) => res.json({
+        googleId: req.user.googleId
     })
 );
 
 app.get('/api/questions',
     passport.authenticate('bearer', { session: false }),
     (req, res) => {
-        console.log('THIS IS THE REQUEST======================', req.user.googleId)
-
-        User
-            .findOne({googleId: req.user.googleId})
-            .then(user => {
-                console.log('USER WORDSSSSSSSSSSSSS', user.words)
-                return res.json([user.words[0].question])
-            })
-
-
-        // let question;
-        // let i = 0;
-        // question = words[i].question
-        // return res.json([question])
+        let question;
+        let i = 0;
+        question = words[i].question
+        return res.json([question])
     }
 );
 
@@ -151,41 +135,43 @@ app.use(express.static(path.resolve(__dirname, '../client/build')));
 // Unhandled requests which aren't for the API should serve index.html so
 // client-side routing using browserHistory can function
 app.get(/^(?!\/api(\/|$))/, (req, res) => {
-  const index = path.resolve(__dirname, '../client/build', 'index.html');
-  res.sendFile(index);
+    const index = path.resolve(__dirname, '../client/build', 'index.html');
+    res.sendFile(index);
 });
 
 let server;
 function runServer(databaseUrl = DATABASE_URL, port = 3001) {
-  return new Promise((resolve, reject) => {
-    server = app
-      .listen(port, () => {
-        resolve();
-      })
-      .on('error', err => {
-        mongoose.disconnect()
-        reject(err)
-      });
+    return new Promise((resolve, reject) => {
+        mongoose.connect(databaseUrl, err => {
+            if (err) {
+                return reject(err)
+            }
+            server = app.listen(port, () => {
+                resolve();
+            })
+                .on('error', err => {
+                    mongoose.disconnect()
+                    reject(err)
+                });
+        });
     });
-  }
+}
 
 function closeServer() {
-  return new Promise((resolve, reject) => {
-    server.close(err => {
-      if (err) {
-        return reject(err);
-      }
-      resolve();
+    return new Promise((resolve, reject) => {
+        server.close(err => {
+            if (err) {
+                return reject(err);
+            }
+            resolve();
+        });
     });
-  });
 }
 
 if (require.main === module) {
-  runServer();
+    runServer();
 }
 
 module.exports = {
-  app,
-  runServer,
-  closeServer
+    app, runServer, closeServer
 };
