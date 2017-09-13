@@ -128,6 +128,16 @@ app.get('/api/questions',
         return res.json([question])
     }
 );
+//
+//PUT -- Updating 
+//Put -- score, default 0 i++  graphql
+//update two tables in one endpoint -- with one put
+
+//app.put('api/questions/update', 
+//findAndUpdate (questionArray)
+//
+//)
+
 
 // Serve the built client
 app.use(express.static(path.resolve(__dirname, '../client/build')));

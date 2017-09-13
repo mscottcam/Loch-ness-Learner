@@ -35,7 +35,7 @@ export const putQuestionError = message => ({
   message
 });
 
-// AUTH
+// AUTH REQUEST
 
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const authSuccess = googleId => ({
