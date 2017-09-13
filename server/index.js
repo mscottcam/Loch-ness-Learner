@@ -29,41 +29,40 @@ passport.use(
       clientSecret: secret.CLIENT_SECRET,
       callbackURL: `/api/auth/google/callback`
     },
-    (accessToken, refreshToken, profile, cb) => {
-      // X Job 1: Set up Mongo/Mongoose, create a User model which store the
-      // google id, and the access token
-      // Job 2: Update this callback to either update or create the user
-      // so it contains the correct access token
-      if (!profile) {
-        User.create({
-          googleId: profile.id,
-          accessToken: accessToken,
-          words: words
-        })
-          .then(results => {
-            console.log('results: ', results);
-          })
-          .catch(err => {
-            console.log("It didn't work. Too bad");
-          });
-      }
-      User. 
-        findOne({ googleId: profile.id })
-        .then(user => {
-          if (user) {
-            user.accessToken = accessToken
-              return user.save()}
-      });
-    
-      const user = (database[accessToken] = {
-        googleId: profile.id,
-        accessToken: accessToken
-        // words: words
-      });
-      return cb(null, user);
-    }
-  )
-);
+        (accessToken, refreshToken, profile, cb) => {
+            // X Job 1: Set up Mongo/Mongoose, create a User model which store the
+            // google id, and the access token
+            // Job 2: Update this callback to either update or create the user
+            // so it contains the correct access token
+            // console.log('GOOGLE ID --------', profile.id)
+            // console.log('ACCESS TOKEN ---------', accessToken)
+ 
+            User
+                .findOne({ googleId: profile.id })
+                .then(user => {
+                    if (user) {
+                        user.accessToken = accessToken
+                        return user.save()
+                    } else {
+                        User
+                        .create({
+                                googleId: profile.id,
+                                accessToken,
+                                words
+                            })
+                        .then(console.log('this worked!'))
+                        .catch(err => {
+                            console.error(err)
+                        })
+                    }
+                })
+            const user = {
+                googleId: profile.id,
+                accessToken: accessToken
+            }
+            return cb(null, user);
+        }
+    ));
 
 passport.use(
   new BearerStrategy(
@@ -126,16 +125,24 @@ app.get(
     })
 );
 
-app.get(
-  '/api/questions',
-  passport.authenticate('bearer', { session: false }),
-  (req, res) => {
-    let question;
-    let i = 0;
-    //change below to user.word functionality
-    question = words[i].question;
-    return res.json([question]);
-  }
+app.get('/api/questions',
+    passport.authenticate('bearer', { session: false }),
+    (req, res) => {
+        console.log('THIS IS THE REQUEST======================', req.user.googleId)
+
+        User
+            .findOne({googleId: req.user.googleId})
+            .then(user => {
+                console.log('USER WORDSSSSSSSSSSSSS', user.words)
+                return res.json([user.words[0].question])
+            })
+
+
+        // let question;
+        // let i = 0;
+        // question = words[i].question
+        // return res.json([question])
+    }
 );
 
 // Serve the built client

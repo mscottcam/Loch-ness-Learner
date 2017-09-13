@@ -1,7 +1,7 @@
 const words = [ 
-    {question: 'ques1', answer: 'answer1'},
-    {question: 'ques2', answer: 'answer2'},
-    {question: 'ques3', answer: 'answer3'}
+    {question: 'ques1', answer: 'ans1'},
+    {question: 'ques2', answer: 'ans2'},
+    {question: 'ques3', answer: 'ans3'}
 ]
 
 module.exports = { words }

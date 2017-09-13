@@ -1,5 +1,5 @@
 const initialState = {
-    question: [],
-    currentUser: null,
-    score: 0
-  };
+  question: [],
+  currentUser: null,
+  score: 0
+};
