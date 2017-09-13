@@ -1,7 +1,6 @@
 export const GET_QUESTION_REQUEST = 'GET_QUESTION_REQUEST';
-export const getQuestionRequest = words => ({
-  type: GET_QUESTION,
-  words
+export const getQuestionRequest = () => ({
+  type: GET_QUESTION
 });
 
 export const GET_QUESTION_SUCCESS = 'GET_QUESTION_SUCCESS';
@@ -11,18 +10,16 @@ export const getQuestionSuccess = words => ({
 });
 
 export const GET_QUESTION_ERROR = 'GET_QUESTION_ERROR';
-export const getQuestionError = words => ({
+export const getQuestionError = message => ({
   type: GET_QUESTION_ERROR,
-  words
+  message
 });
 
 //GET_SCORE
 
 export const PUT_QUESTION_REQUEST = 'PUT_QUESTION_REQUEST';
-export const putQuestionRequest = (words, score) => ({
-  type: PUT_QUESTION_REQUEST,
-  words,
-  score
+export const putQuestionRequest = () => ({
+  type: PUT_QUESTION_REQUEST
 });
 
 export const PUT_QUESTION_SUCCESS = 'PUT_QUESTION_SUCCESS';
@@ -33,23 +30,24 @@ export const putQuestionSuccess = (words, score) => ({
 });
 
 export const PUT_QUESTION_ERROR = 'PUT_QUESTION_ERROR';
-export const putQuestionError = (words, score) => ({
+export const putQuestionError = message => ({
   type: PUT_QUESTION_ERROR,
-  words,
-  score
+  message
 });
 
 // AUTH
 
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
-export const authSuccess = googleId => {
-  type: AUTH_SUCCESS, googleId;
-};
+export const authSuccess = googleId => ({
+  type: AUTH_SUCCESS, 
+  googleId
+});
 
 export const AUTH_ERROR = 'AUTH_ERROR';
-export const authError = googleId => {
-  type: AUTH_ERROR, googleId;
-};
+export const authError = message => ({
+  type: AUTH_ERROR, 
+  message
+});
 
 export const authenticate = () => dispatch => {
   const accessToken = Cookies.get('accessToken');
@@ -93,3 +91,5 @@ export const getQuestion = () => dispatch => {
     })
     .catch(error => dispatch(getQuestionError(error.message)));
 };
+
+//PUT QUESTION

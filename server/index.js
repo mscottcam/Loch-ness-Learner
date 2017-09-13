@@ -3,6 +3,7 @@ const express = require('express');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const BearerStrategy = require('passport-http-bearer').Strategy;
+const { DATABASE_URL } = require('./config');
 const { User } = require('./models');
 const { words } = require('./words');
 
@@ -35,8 +36,9 @@ passport.use(
       // so it contains the correct access token
       if (!profile) {
         User.create({
-          googleId: req.body.profile,
-          accessToken: req.body.accessToken
+          googleId: profile.id,
+          accessToken: accessToken,
+          words: words
         })
           .then(results => {
             console.log('results: ', results);
@@ -45,12 +47,18 @@ passport.use(
             console.log("It didn't work. Too bad");
           });
       }
-      User.findOne({ googleId: profile }).then(user => {
-        console.log("hey I'm in the user now!");
+      User. 
+        findOne({ googleId: profile.id })
+        .then(user => {
+          if (user) {
+            user.accessToken = accessToken
+              return user.save()}
       });
+    
       const user = (database[accessToken] = {
         googleId: profile.id,
-        accessToken: accessToken
+        accessToken: accessToken,
+        words: words
       });
       return cb(null, user);
     }
@@ -82,6 +90,7 @@ app.get(
   }),
   (req, res) => {
     res.cookie('accessToken', req.user.accessToken, { expires: 0 });
+    console.log('accessToken_*(&^)&(*(', req.user.accessToken)
     res.redirect('/');
   }
 );
@@ -107,6 +116,7 @@ app.get(
   (req, res) => {
     let question;
     let i = 0;
+    //change below to user.word functionality
     question = words[i].question;
     return res.json([question]);
   }
@@ -123,15 +133,16 @@ app.get(/^(?!\/api(\/|$))/, (req, res) => {
 });
 
 let server;
-function runServer(port = 3001) {
+function runServer(databaseUrl = DATABASE_URL, port = 3001) {
   return new Promise((resolve, reject) => {
     server = app
       .listen(port, () => {
         resolve();
       })
-      .on('error', reject);
-  });
-}
+      .on('error', err => {
+        mongoose.disconnect()
+        reject(err)
+      });
 
 function closeServer() {
   return new Promise((resolve, reject) => {
