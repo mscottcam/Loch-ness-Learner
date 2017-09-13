@@ -48,7 +48,8 @@ passport.use(
                         User
                         .create({
                                 googleId: profile.id,
-                                accessToken
+                                accessToken,
+                                words
                             })
                         .then(console.log('this worked!'))
                         .catch(err => {
@@ -122,10 +123,20 @@ app.get('/api/me',
 app.get('/api/questions',
     passport.authenticate('bearer', { session: false }),
     (req, res) => {
-        let question;
-        let i = 0;
-        question = words[i].question
-        return res.json([question])
+        console.log('THIS IS THE REQUEST======================', req.user.googleId)
+
+        User
+            .findOne({googleId: req.user.googleId})
+            .then(user => {
+                console.log('USER WORDSSSSSSSSSSSSS', user.words)
+                return res.json([user.words[0].answer])
+            })
+
+
+        // let question;
+        // let i = 0;
+        // question = words[i].question
+        // return res.json([question])
     }
 );
 
