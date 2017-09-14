@@ -134,23 +134,33 @@ app.get('/api/questions',
         User
             .findOne({googleId: req.user.googleId})
             .then(user => {
-                console.log('ARRAYYYYYY????', user.words)
+                // console.log('ARRAYYYYYY????', user.words)
                 const object = convertArray(user.words)
                 const currentQuestion = object.question;
-                console.log('currentQuestion', currentQuestion)
+                // console.log('currentQuestion', currentQuestion)
                 // const currentQuestion = object.question;
-            //   const algor = algorithm(user.words[0].question, user.words[0].answer, user.score, user.words)
+            //   
 
                 return res.json([currentQuestion])
             })
-
-
-        // let question;
-        // let i = 0;
-        // question = words[i].question
-        // return res.json([question])
     }
 );
+
+app.put('api/questions/update',
+    (req, res) => {
+        User
+            .findAndUpdate({googleId: req.user.googleId})
+            .then(user => {
+                const algor = algorithm(user.words[0].question, 
+                    user.words[0].answer, user.score, user.words)
+                console.log('USERRRR', algor)
+            })
+            .catch(err => {
+                console.log('Put failed!', err);
+                res.status(500).json({ message: 'Internal error from PUT' });    
+              });
+    }
+)
 
 // Serve the built client
 app.use(express.static(path.resolve(__dirname, '../client/build')));

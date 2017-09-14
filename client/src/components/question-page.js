@@ -1,18 +1,20 @@
 import React from 'react';
 import * as Cookies from 'js-cookie';
+import * as actions from '../actions/actions'
 import {connect} from 'react-redux'
 
-export default class QuestionPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            questions: [],
-            answer: '',
-            value: ''
-        };
-    }
+class QuestionPage extends React.Component {
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         questions: [],
+    //         answer: '',
+    //         value: ''
+    //     };
+    // }
 
     componentDidMount() {
+        // this.props.dispatch(actions.getQuestion());
         const accessToken = Cookies.get('accessToken');
         fetch('/api/questions', {
                 headers: {
@@ -41,14 +43,14 @@ export default class QuestionPage extends React.Component {
     }
 
     render() {
-        const questions = this.state.questions.map((question, index) =>
-            <li key={index}>{question}</li>
-        );
+        // const questions = this.state.question.map((question, index) =>
+        //     <li key={index}>{this.props.question}</li>
+        // );
 
         return (
             <div>
             <ul className="question-list">
-                {questions}
+                {this.props.question}
             </ul>
 
             <form onSubmit={e => this.onSubmit(e)}>
@@ -63,3 +65,9 @@ export default class QuestionPage extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state, props) => ({
+    question: state.question
+});
+
+export default connect(mapStateToProps)(QuestionPage);

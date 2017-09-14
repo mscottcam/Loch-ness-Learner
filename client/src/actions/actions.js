@@ -1,12 +1,14 @@
+import * as Cookies from 'js-cookie';
+
 export const GET_QUESTION_REQUEST = 'GET_QUESTION_REQUEST';
 export const getQuestionRequest = () => ({
-  type: GET_QUESTION
+  type: GET_QUESTION_REQUEST
 });
 
 export const GET_QUESTION_SUCCESS = 'GET_QUESTION_SUCCESS';
-export const getQuestionSuccess = words => ({
+export const getQuestionSuccess = word => ({
   type: GET_QUESTION_SUCCESS,
-  words
+  word
 });
 
 export const GET_QUESTION_ERROR = 'GET_QUESTION_ERROR';
@@ -23,9 +25,9 @@ export const putQuestionRequest = () => ({
 });
 
 export const PUT_QUESTION_SUCCESS = 'PUT_QUESTION_SUCCESS';
-export const putQuestionSuccess = (words, score) => ({
+export const putQuestionSuccess = (word, score) => ({
   type: PUT_QUESTION_SUCCESS,
-  words,
+  word,
   score
 });
 
@@ -38,19 +40,26 @@ export const putQuestionError = message => ({
 // AUTH
 
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
-export const authSuccess = googleId => ({
-  type: AUTH_SUCCESS, 
-  googleId
-});
+// export const authSuccess = googleId => ({
+//   type: AUTH_SUCCESS,
+//   googleId : googleId.googleId
+// });
+
+export const authSuccess = (googleId) => {
+  //console.log('googleId', googleId.googleId);
+  return {type: AUTH_SUCCESS, test: 'HIIIIIEEEE'}
+ 
+};
 
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const authError = message => ({
-  type: AUTH_ERROR, 
+  type: AUTH_ERROR,
   message
 });
 
 export const authenticate = () => dispatch => {
   const accessToken = Cookies.get('accessToken');
+  console.log(accessToken);
   if (accessToken) {
     fetch('/api/me', {
       headers: {
@@ -75,9 +84,13 @@ export const authenticate = () => dispatch => {
 };
 
 export const getQuestion = () => dispatch => {
+  const accessToken = Cookies.get('accessToken');
   dispatch(getQuestionRequest());
-  fetch('http://localhost:8080/api/questions')
-    .then(res => {
+  fetch('http://localhost:8080/api/questions', {
+    headers: {
+        'Authorization': `Bearer ${accessToken}`
+    }
+  }).then(res => {
       if (!res.ok) {
         console.log('its dead');
         return Promise.reject(res.statusText);
@@ -91,5 +104,59 @@ export const getQuestion = () => dispatch => {
     })
     .catch(error => dispatch(getQuestionError(error.message)));
 };
+
+export const putQuestion = data => dispatch => {
+  const opts = {
+    method: 'PUT',
+    body: JSON.stringify(data),
+    headers: {
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    }
+  };
+  dispatch(putQuestionRequest());
+  fetch('http://localhost:8080/api/questions/update', opts)
+    .then(res => {
+      if (!res.ok) {
+        console.log('it doesnt work');
+        return Promise.reject(res.statusText);
+      }
+    })
+    .then(userAnswer => {
+      console.log('hullOOOO from PUT!');
+      dispatch(putQuestionSuccess(userAnswer));
+    })
+    .catch(err => {
+      dispatch(putQuestionError(err));
+    });
+};
+
+// export const addPost = (data) => dispatch => {
+//   // console.log('data', data);
+//    const opts = {
+//        method: "POST",
+//        body: JSON.stringify(data),
+//        headers: {
+//        'Accept': 'application/json, text/plain, */*',
+//        'Content-Type': 'application/json'
+//    },
+//    }
+//    dispatch(addPostRequest());
+//    fetch(`${REACT_APP_API_BASE_URL}/post`, opts)
+//        .then(res => {
+//            // if(!res.ok) {
+//            //     return Promise.reject(res.statusText)
+//            // }
+//            return res.json()
+//        })
+//        .then((posts) => {
+//            console.log('in then')
+//            console.log('posts', posts);
+//            dispatch(getPostsSuccess(posts))
+//        })
+//        .catch((err) => {
+//            dispatch(addPostError(err))
+//        })
+// }
 
 //PUT QUESTION
