@@ -164,3 +164,7 @@ export const putQuestion = data => dispatch => {
 // }
 
 //PUT QUESTION
+
+
+
+//new action sends INPUT word to the backend to be compared with the current answer and runs algorithm

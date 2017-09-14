@@ -153,7 +153,9 @@ app.put('api/questions/update',
             .then(user => {
                 const algor = algorithm(user.words[0].question, 
                     user.words[0].answer, user.score, user.words)
-                console.log('USERRRR', algor)
+                    //second parameter will become req.body.?useranswer?
+                user.score = algor.score
+                    console.log('USERRRR', algor)
             })
             .catch(err => {
                 console.log('Put failed!', err);

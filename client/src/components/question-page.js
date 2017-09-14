@@ -34,6 +34,8 @@ class QuestionPage extends React.Component {
 
     onSubmit(event) {
         event.preventDefault();
+        //make compare action here
+        //action makes the fetch to the database to see if userinput is the same as current answer
         console.log(this.state.value)
     }
 
