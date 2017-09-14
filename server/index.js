@@ -8,7 +8,7 @@ const { DATABASE_URL } = require('./config');
 const mongoose = require('mongoose')
 const { words } = require('./words')
 
-const { algorithm } = require('./linked-list');  
+const { algorithm, convertArray } = require('./linked-list');  
 
 
 let secret = {
@@ -129,15 +129,19 @@ app.get('/api/me',
 app.get('/api/questions',
     passport.authenticate('bearer', { session: false }),
     (req, res) => {
-        console.log('THIS IS THE REQUEST======================', req.user.googleId)
+        // console.log('THIS IS THE REQUEST======================', req.user.googleId)
       // const algor = algorithm(question, answer)
         User
             .findOne({googleId: req.user.googleId})
             .then(user => {
-              const algor = algorithm(user.words[0].question, user.words[0].answer, user.score, user.words)
-                console.log('USER WORDSSSSSSSSSSSSS', user.words)
-                // return res.json([algor])
-                return res.json([user.words[0].question])
+                console.log('ARRAYYYYYY????', user.words)
+                const object = convertArray(user.words)
+                const currentQuestion = object.question;
+                console.log('currentQuestion', currentQuestion)
+                // const currentQuestion = object.question;
+            //   const algor = algorithm(user.words[0].question, user.words[0].answer, user.score, user.words)
+
+                return res.json([currentQuestion])
             })
 
 
