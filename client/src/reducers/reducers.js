@@ -12,11 +12,16 @@ export const reducer = (state, action) => {
   // console.log(action, 'action')
    let copyState = state || initialState;
     state = Object.assign({}, copyState);
-if(action.type = actions.AUTH_SUCCESS) {
+if(action.type === actions.AUTH_SUCCESS) {
   // action.test = 'whoopie'
   // console.log(action, 'haalllo')
   state.currentUser = action.googleId
 }
+else if (action.type === actions.GET_QUESTION_SUCCESS) {
+  console.log('action word --===-=-=-=', action.word)
+  state.question = action.word
+}
+
 
   // switch (action.type) {  
   //       case actions.AUTH_SUCCESS:

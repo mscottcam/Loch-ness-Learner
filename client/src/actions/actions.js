@@ -89,7 +89,7 @@ export const authenticate = () => dispatch => {
 
 export const getQuestion = () => dispatch => {
   const accessToken = Cookies.get('accessToken');
-  dispatch(getQuestionRequest());
+  //dispatch(getQuestionRequest());
   fetch('http://localhost:8080/api/questions', {
     headers: {
         'Authorization': `Bearer ${accessToken}`
@@ -103,8 +103,8 @@ export const getQuestion = () => dispatch => {
       return res.json();
     })
     .then(question => {
-      dispatch(getQuestionSuccess(question));
-      console.log(question);
+      console.log('QUES*)*)*)**)', question);
+      return dispatch(getQuestionSuccess(question));
     })
     .catch(error => dispatch(getQuestionError(error.message)));
 };
