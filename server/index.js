@@ -134,10 +134,10 @@ app.get('/api/questions',
         User
             .findOne({googleId: req.user.googleId})
             .then(user => {
-              const algor = algorithm(user.words[0].question, user.words[0].answer)
+              const algor = algorithm(user.words[0].question, user.words[0].answer, user.score, user.words)
                 console.log('USER WORDSSSSSSSSSSSSS', user.words)
                 // return res.json([algor])
-                return res.json([user.words[0].answer])
+                return res.json([user.words[0].question])
             })
 
 

@@ -1,3 +1,5 @@
+const {User} = require('./models')
+
 class LinkedList {
     constructor() {
       this.length = 0;
@@ -53,15 +55,52 @@ class LinkedList {
     }
   }
 
-  const algorithm = (question, answer) => {
+const list = new LinkedList();
 
-    const list = new LinkedList();
+const testArray = [ 
+    {question: 'BOOOM', answer: 'ans1'},
+    {question: 'ques2', answer: 'ans2'},
+    {question: 'ques3', answer: 'ans3'}
+]
 
-    list.insert(0, 'question1');
+  const convertArray = (array) => {
+    for (let i =0; i < array.length; i++) {
+      list.insert(i, array[i])
+    }
+    return list
+  }
 
-    console.log('hello list', list)
-    console.log('this is the Q at the head o\' the node', question)
-    console.log('this is the A at the head o\' the node', answer)
+  console.log('USERRRRRRRR', testArray)
+  // console.log('LISTTTTTTT', convertArray(user.words))
+  
+
+
+  const algorithm = (question, userAnswer, correctAnswer, score, wordsArray=testArray) => {
+
+    convertArray(wordsArray)
+    console.log('LISTTTTTTT', list)
+
+    if (userAnswer === correctAnswer) {
+      // score ++
+      // call get method to retrieve value
+      // call end method to get correct nth position
+      // call insert method with value/position from last two steps
+      // call remove to remove head
+      // call question 0 again
+    }
+    else {
+      // call get for value
+      // call insert with value and standard position
+      // call remove to remove head
+    }
+
+    // list.insert(0, 'question1');
+
+    // console.log('hello list', list)
+    // console.log('this is the Q at the head o\' the node', question)
+    // console.log('this is the A at the head o\' the node', answer)
+    // console.log('this is the score', score)
+
   }
 
   //func algorithm (ques, ans) {if submitted val for ques1 = ans1, then node = node.next  return node}
@@ -76,3 +115,5 @@ module.exports = { algorithm };
 
 
 //in server, need -> const { Algorithm } = require('./Algorithm'); and const list = new LinkedList();
+
+
