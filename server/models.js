@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const userSchema = mongoose.Schema({
     googleId: {type: String, required: true},
     accessToken: {type: String, required: true},
-    score: {type: Number, required: false},
+    score: {type: Number, default: 0},
     words: {type: Array, required: false}
 })
 
