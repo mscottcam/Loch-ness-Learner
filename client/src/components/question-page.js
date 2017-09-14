@@ -14,22 +14,22 @@ class QuestionPage extends React.Component {
     // }
 
     componentDidMount() {
-        // this.props.dispatch(actions.getQuestion());
-        const accessToken = Cookies.get('accessToken');
-        fetch('/api/questions', {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            }).then(res => {
-            if (!res.ok) {
-                throw new Error(res.statusText);
-            }
-            return res.json();
-        }).then(questions =>
-            this.setState({
-                questions
-            })
-        );
+        this.props.dispatch(actions.getQuestion());
+        // const accessToken = Cookies.get('accessToken');
+        // fetch('/api/questions', {
+        //         headers: {
+        //             'Authorization': `Bearer ${accessToken}`
+        //         }
+        //     }).then(res => {
+        //     if (!res.ok) {
+        //         throw new Error(res.statusText);
+        //     }
+        //     return res.json();
+        // }).then(questions =>
+        //     this.setState({
+        //         questions
+        //     })
+        // );
     }
 
     onSubmit(event) {

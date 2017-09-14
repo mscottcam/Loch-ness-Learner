@@ -40,16 +40,16 @@ export const putQuestionError = message => ({
 // AUTH
 
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
-// export const authSuccess = googleId => ({
-//   type: AUTH_SUCCESS,
-//   googleId : googleId.googleId
-// });
+export const authSuccess = (googleId) => ({
+  type: AUTH_SUCCESS,
+  googleId : googleId.googleId
+});
 
-export const authSuccess = (googleId) => {
-  //console.log('googleId', googleId.googleId);
-  return {type: AUTH_SUCCESS, test: 'HIIIIIEEEE'}
+// export const authSuccess = (googleId) => {
+//   //console.log('googleId', googleId.googleId);
+//   return {type: AUTH_SUCCESS, test: 'HIIIIIEEEE'}
  
-};
+// };
 
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const authError = message => ({
@@ -71,6 +71,7 @@ export const authenticate = () => dispatch => {
           if (res.status !== 401) {
             // Unauthorized, clear the cookie and go to
             // the login page
+            console.log('hii')
             Cookies.remove('accessToken');
             return;
           }
@@ -79,7 +80,10 @@ export const authenticate = () => dispatch => {
         return res.json();
         //change under this to redux
       })
-      .then(currentUser => authSuccess(currentUser));
+      .then(currentUser => { 
+        console.log(currentUser, 'user')
+        return dispatch(authSuccess(currentUser)); 
+      });
   }
 };
 

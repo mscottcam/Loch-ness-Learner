@@ -1,6 +1,6 @@
 import * as actions from '../actions/actions'
 
-console.log('weird: ', actions.authSuccess())
+// console.log('weird: ', actions.authSuccess())
 
 const initialState = {
   question: null,
@@ -9,14 +9,14 @@ const initialState = {
   score: 0
 };
 export const reducer = (state, action) => {
-  console.log(action, 'action')
+  // console.log(action, 'action')
    let copyState = state || initialState;
     state = Object.assign({}, copyState);
-// if(action.type = AUTH_SUCCESS) {
-//   action.test = 'whoopie'
-//   console.log(action, 'haalllo')
-//   state.currentUser = action.googleId
-// }
+if(action.type = actions.AUTH_SUCCESS) {
+  // action.test = 'whoopie'
+  // console.log(action, 'haalllo')
+  state.currentUser = action.googleId
+}
 
   // switch (action.type) {  
   //       case actions.AUTH_SUCCESS:
