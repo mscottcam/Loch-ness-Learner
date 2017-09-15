@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 
 import QuestionPage from './question-page';
 import LoginPage from './login-page';
-// import './app.css'
+import './app.css'
 
 class App extends React.Component {
     // constructor(props) {

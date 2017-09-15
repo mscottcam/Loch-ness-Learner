@@ -57,23 +57,20 @@ class LinkedList {
 
 const list = new LinkedList();
 
-const testArray = [
-  { question: 'BOOOM', answer: 'ans1' },
-  { question: 'ques2', answer: 'ans2' },
-  { question: 'ques3', answer: 'ans3' }
-];
-
-const convertArray = array => {
+const convertArray = (array) => {
   for (let i = 0; i < array.length; i++) {
     list.insert(i, array[i]);
   }
   return list.get(0);
 };
-
 // ** refactor to convert once on login, once on logout **
+
 
 const algorithm = (question, userAnswer, correctAnswer, score, wordsArray) => {
   convertArray(wordsArray);
+  console.log('user answer', userAnswer)
+  console.log('corr answer', correctAnswer)
+  console.log('ques', question)
   // call get method to retrieve value
   let value = list.get(0);
   if (userAnswer === correctAnswer) {
@@ -101,10 +98,20 @@ const algorithm = (question, userAnswer, correctAnswer, score, wordsArray) => {
     // call remove to remove head
     list.remove(0)
     console.log('SCORE 2........', list)
-    return {question: list.get(0), userScore: score};
+    return {question: list.get(0), userScore: score, list: list};
   }
-  
 };
+
+
+const convertList = () => {
+  let toArray = [];
+  let node = list.head;
+  while (node.next) {
+    toArray.push(node.value);
+      node = node.next;
+  }
+  return toArray;
+}
 
 //func algorithm (ques, ans) {if submitted val for ques1 = ans1, then node = node.next  return node}
 //SCORE, WORDMATCH, NODEHEAD, QUESTION_ID STORED (is this question repeated)
@@ -117,6 +124,6 @@ const algorithm = (question, userAnswer, correctAnswer, score, wordsArray) => {
 //   algorithm('question', 'right', 'right', 0, testArray)
 // );
 
-module.exports = { algorithm, convertArray };
+module.exports = { algorithm, convertArray, convertList };
 
 //in server, need -> const { Algorithm } = require('./Algorithm'); and const list = new LinkedList();

@@ -90,7 +90,7 @@ export const authenticate = () => dispatch => {
 export const getQuestion = () => dispatch => {
   const accessToken = Cookies.get('accessToken');
   //dispatch(getQuestionRequest());
-  fetch('http://localhost:8080/api/questions', {
+  fetch('/api/questions', {
     headers: {
         'Authorization': `Bearer ${accessToken}`
     }

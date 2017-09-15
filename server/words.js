@@ -1,7 +1,13 @@
 const words = [ 
-    {question: 'THIS IS THE FIRST QUESTION', answer: 'ans1'},
-    {question: 'ques2', answer: 'ans2'},
-    {question: 'ques3', answer: 'ans3'}
-]
+    {question: 'halò', answer: 'hello'},
+    {question: 'mar sin leat', answer: 'goodbye'},
+    {question: 'balach', answer: 'boy'},
+    {question: 'nighean', answer: 'girl'},
+    {question: 'uaine', answer: 'green'},
+    {question: 'gorm', answer: 'blue'},
+    {question: 'sona', answer: 'happy'},
+    {question: 'brònach', answer: 'sad'},
+    {question: 'mòr', answer: 'big'},
+    {question: 'beag', answer: 'small'} ]
 
 module.exports = { words }

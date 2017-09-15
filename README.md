@@ -1,3 +1,8 @@
+# Loch Ness Learner
+heroku: https://loch-ness-learner.herokuapp.com/
+
+
+
 # Space Repetition Starter Kit
 
 This should get you started with your Spaced Repetition app. We're giving you your basic directory structure, and the framework for authentication. However, we aren't persisting any information, and it will be your job to add Mongo/Mongoose. There are helpful comments in `server/index.js`.

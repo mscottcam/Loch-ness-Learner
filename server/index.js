@@ -9,7 +9,7 @@ const mongoose = require('mongoose')
 const { words } = require('./words')
 const bodyParser = require('body-parser');
 const JSonparser = bodyParser.json();
-const { algorithm, convertArray } = require('./linked-list');  
+const { algorithm, convertArray, convertList } = require('./linked-list');  
 const app = express();
 
 app.use(JSonparser);
@@ -143,7 +143,7 @@ app.get('/api/questions',
                 // console.log('ARRAYYYYYY????', user.words)
                 const object = convertArray(user.words)
                 const currentQuestion = object.question;
-                // console.log('currentQuestion', currentQuestion)
+                console.log('currentQuestion', currentQuestion)
                 // const currentQuestion = object.question;
             //   
 
@@ -161,7 +161,9 @@ app.post('/api/questions/update', passport.authenticate('bearer', { session: fal
                 const algor = algorithm(user.words[0].question, req.body.data,
                     user.words[0].answer, user.score, user.words)
                 user.score = algor.score
-                  
+                console.log('algor list', algor.list)
+                user.words = convertList(algor.list)
+                console.log('user array', user.words[0])
                 // console.log('USER SCORE>>>>>>>>>>>>>>>', user.score)
                 console.log('ALGORRRR', algor)
                 return res.json(algor)
