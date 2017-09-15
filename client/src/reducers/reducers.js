@@ -4,11 +4,11 @@ import * as actions from '../actions/actions'
 
 const initialState = {
   question: null,
-  currentAnswer: null,
+  currentAnswer: '',
   currentUser: null,
   score: 0
 };
-export const reducer = (state, action) => {
+export const reducer = (state=initialState, action) => {
   // console.log(action, 'action')
    let copyState = state || initialState;
     state = Object.assign({}, copyState);
@@ -18,16 +18,21 @@ if(action.type === actions.AUTH_SUCCESS) {
   state.currentUser = action.googleId
 }
 else if (action.type === actions.GET_QUESTION_SUCCESS) {
-  console.log('action word --===-=-=-=', action.word)
+  // console.log('action word --===-=-=-=', action.word)
   state.question = action.word
 }
 else if (action.type === actions.PUT_QUESTION_SUCCESS) {
-  console.log('STATE', state)
- return {
-            ...state,
-            question: action.word,
-            score: action.score
-        }
+  console.log('action word', action.word)
+  state.question = action.word.question
+  // state.currentAnswer = action.answer,
+  state.score = action.score
+//  return {
+//             ...state,
+//             question: action.word,
+//             currentAnswer: action.answer,
+//             score: action.score
+//         }
+        
 }
 console.log('STATE 2', state)
 

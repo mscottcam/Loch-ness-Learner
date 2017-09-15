@@ -7,9 +7,12 @@ const { User } = require('./models');
 const { DATABASE_URL } = require('./config');
 const mongoose = require('mongoose')
 const { words } = require('./words')
-
+const bodyParser = require('body-parser');
+const JSonparser = bodyParser.json();
 const { algorithm, convertArray } = require('./linked-list');  
+const app = express();
 
+app.use(JSonparser);
 
 let secret = {
     CLIENT_ID: process.env.CLIENT_ID,
@@ -20,10 +23,11 @@ if (process.env.NODE_ENV != 'production') {
     secret = require('./secret');
 }
 
-const app = express();
+
 
 const database = {
 };
+
 
 app.use(passport.initialize());
 
@@ -126,6 +130,8 @@ app.get('/api/me',
 // const algor = algorithm('q', 'a')
 // console.log('6r36r836r8r3', algorithm())
 
+// app.use(bodyParser.json());
+
 app.get('/api/questions',
     passport.authenticate('bearer', { session: false }),
     (req, res) => {
@@ -148,14 +154,17 @@ app.get('/api/questions',
 
 app.post('/api/questions/update', passport.authenticate('bearer', { session: false }),
     (req, res) => {
+        console.log('INPUT', req.body.data)
         User
             .findOneAndUpdate({googleId: req.user.googleId})
             .then(user => {
-                const algor = algorithm(user.words[0].question, 'correct',
+                const algor = algorithm(user.words[0].question, req.body.data,
                     user.words[0].answer, user.score, user.words)
                 user.score = algor.score
-                console.log('USER SCORE>>>>>>>>>>>>>>>', user.score)
-                return res.json(algor.question)
+                  
+                // console.log('USER SCORE>>>>>>>>>>>>>>>', user.score)
+                console.log('ALGORRRR', algor)
+                return res.json(algor)
             })
             .catch(err => {
                 console.log('Put failed!', err);

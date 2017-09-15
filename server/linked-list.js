@@ -91,16 +91,17 @@ const algorithm = (question, userAnswer, correctAnswer, score, wordsArray) => {
     // call remove to remove head
     list.remove(0);
     // call question 0 again
+    console.log(list)
     console.log('SCORE 1........', score)
-    return list.get(0);
+    return {question: list.get(0), userScore: score};
   } else {
     // call get for value
     // call insert with value and standard position
-    list.insert(2, value)
+    list.insert(2, list.get(0))
     // call remove to remove head
     list.remove(0)
-    console.log('SCORE 2........', score)
-    return list.get(0);
+    console.log('SCORE 2........', list)
+    return {question: list.get(0), userScore: score};
   }
   
 };

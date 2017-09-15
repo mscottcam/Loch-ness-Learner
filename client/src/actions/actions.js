@@ -59,7 +59,7 @@ export const authError = message => ({
 
 export const authenticate = () => dispatch => {
   const accessToken = Cookies.get('accessToken');
-  console.log(accessToken);
+  // console.log(accessToken);
   if (accessToken) {
     fetch('/api/me', {
       headers: {
@@ -81,7 +81,7 @@ export const authenticate = () => dispatch => {
         //change under this to redux
       })
       .then(currentUser => { 
-        console.log(currentUser, 'user')
+        // console.log(currentUser, 'user')
         return dispatch(authSuccess(currentUser)); 
       });
   }
@@ -99,21 +99,22 @@ export const getQuestion = () => dispatch => {
         console.log('its dead');
         return Promise.reject(res.statusText);
       }
-      console.log('hello!');
+      // console.log('hello!');
       return res.json();
     })
     .then(question => {
-      console.log('QUES*)*)*)**)', question);
+      // console.log('QUES*)*)*)**)', question);
       return dispatch(getQuestionSuccess(question));
     })
     .catch(error => dispatch(getQuestionError(error.message)));
 };
 
 export const putQuestion = data => dispatch => {
+  // console.log('data', data)
   const accessToken = Cookies.get('accessToken');
   const opts = {
     method: 'POST',
-    body: JSON.stringify(data),
+    body: JSON.stringify({data}),
     headers: {
       'Authorization': `Bearer ${accessToken}`,
       'Accept': 'application/json, text/plain, */*',
@@ -123,17 +124,18 @@ export const putQuestion = data => dispatch => {
   dispatch(putQuestionRequest());
     fetch('/api/questions/update', opts)
         .then(res => {
-          console.log('TESTTTTTTT', res)
+          // console.log('TESTTTTTTT', res.body)
           if (!res.ok) {
             console.log('it doesnt work');
             return Promise.reject(res.statusText);
           }
+          // console.log('JSONNN', res.json)
           return res.json()
         })
-        .then(posts => {
-            console.log('in then')
-            console.log('posts', posts);
-            dispatch(putQuestionSuccess(posts, 3))
+        .then(input => {
+            // console.log('in then')
+            // console.log('input', input);
+            dispatch(putQuestionSuccess(input.question, input.userScore))
         })
         .catch((err) => {
             dispatch(putQuestionError(err))

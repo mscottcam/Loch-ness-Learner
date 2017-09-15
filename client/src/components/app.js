@@ -1,5 +1,5 @@
 import React from 'react';
-import * as Cookies from 'js-cookie';
+// import * as Cookies from 'js-cookie';
 import * as actions from '../actions/actions';
 import {connect} from 'react-redux'
 
@@ -45,12 +45,13 @@ class App extends React.Component {
 
     render() {
         const {currentUser} = this.props;
-        console.log(currentUser, 'test');
+        // console.log(currentUser, 'test');
         if (!currentUser) {
             return <LoginPage />;
         }
-
+        else {
         return <QuestionPage />;
+        }
     }
 }
 
