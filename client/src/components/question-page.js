@@ -37,7 +37,7 @@ class QuestionPage extends React.Component {
             <ul className="question-list">
                 {this.props.question}
             </ul>
-
+            <p>Your Score is {this.props.score}</p>
             <form onSubmit={e => this.onSubmit(e)}>
                 <input type='text' placeholder="Your answer here!" 
                 onChange={e => this.onChange(e)}
@@ -53,7 +53,8 @@ class QuestionPage extends React.Component {
 
 const mapStateToProps = (state, props) => ({
     question: state.question,
-    currentAnswer: state.currentAnswer
+    currentAnswer: state.currentAnswer,
+    score: state.score
 });
 
 export default connect(mapStateToProps)(QuestionPage);

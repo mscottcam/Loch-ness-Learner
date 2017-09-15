@@ -1,0 +1,17 @@
+#root {
+    padding-top: 50px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .question-list {
+    display: flex;
+    justify-content: flex-start;
+    padding: 0;
+  }
+  
+  form {
+    display: flex;
+    font-size: 1.5rem;
+    padding-bottom: 20px;
+  }
