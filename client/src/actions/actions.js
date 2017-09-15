@@ -110,30 +110,52 @@ export const getQuestion = () => dispatch => {
 };
 
 export const putQuestion = data => dispatch => {
+  const accessToken = Cookies.get('accessToken');
   const opts = {
-    method: 'PUT',
+    method: 'POST',
     body: JSON.stringify(data),
     headers: {
-      Accept: 'application/json, text/plain, */*',
+      'Authorization': `Bearer ${accessToken}`,
+      'Accept': 'application/json, text/plain, */*',
       'Content-Type': 'application/json'
     }
   };
   dispatch(putQuestionRequest());
-  fetch('http://localhost:8080/api/questions/update', opts)
-    .then(res => {
-      if (!res.ok) {
-        console.log('it doesnt work');
-        return Promise.reject(res.statusText);
-      }
-    })
-    .then(userAnswer => {
-      console.log('hullOOOO from PUT!');
-      dispatch(putQuestionSuccess(userAnswer));
-    })
-    .catch(err => {
-      dispatch(putQuestionError(err));
-    });
-};
+    fetch('/api/questions/update', opts)
+        .then(res => {
+          console.log('TESTTTTTTT', res)
+          if (!res.ok) {
+            console.log('it doesnt work');
+            return Promise.reject(res.statusText);
+          }
+          return res.json()
+        })
+        .then(posts => {
+            console.log('in then')
+            console.log('posts', posts);
+            dispatch(putQuestionSuccess(posts, 3))
+        })
+        .catch((err) => {
+            dispatch(putQuestionError(err))
+        })
+}
+  // dispatch(putQuestionRequest());
+  // fetch('http://localhost:8080/api/questions/update', opts)
+  //   .then(res => {
+  //     if (!res.ok) {
+  //       console.log('it doesnt work');
+  //       return Promise.reject(res.statusText);
+  //     }
+  //     console.log('RESSSSSSSS', res)
+  //   })
+  //   .then(userAnswer => {
+  //     console.log('hullOOOO from PUT!');
+  //     dispatch(putQuestionSuccess(userAnswer));
+  //   })
+  //   .catch(err => {
+  //     dispatch(putQuestionError(err));
+  //   });
+// };
 
 // export const addPost = (data) => dispatch => {
 //   // console.log('data', data);

@@ -71,7 +71,7 @@ passport.use(
 passport.use(
     new BearerStrategy(
         (token, done) => {
-            console.log('tokennnnnnnnnn', token)
+            // console.log('tokennnnnnnnnn', token)
             // console.log('accessTokennnnnnnnnnnnn', user.accessToken)
             // Job 3: Update this callback to try to find a user with a
             // matching access token.  If they exist, let em in, if not,
@@ -146,16 +146,16 @@ app.get('/api/questions',
     }
 );
 
-app.put('api/questions/update',
+app.post('/api/questions/update', passport.authenticate('bearer', { session: false }),
     (req, res) => {
         User
-            .findAndUpdate({googleId: req.user.googleId})
+            .findOneAndUpdate({googleId: req.user.googleId})
             .then(user => {
-                const algor = algorithm(user.words[0].question, 
+                const algor = algorithm(user.words[0].question, 'correct',
                     user.words[0].answer, user.score, user.words)
-                    //second parameter will become req.body.?useranswer?
                 user.score = algor.score
-                    console.log('USERRRR', algor)
+                console.log('USER SCORE>>>>>>>>>>>>>>>', user.score)
+                return res.json(algor.question)
             })
             .catch(err => {
                 console.log('Put failed!', err);

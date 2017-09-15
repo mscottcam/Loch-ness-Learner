@@ -4,39 +4,18 @@ import * as actions from '../actions/actions'
 import {connect} from 'react-redux'
 
 class QuestionPage extends React.Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         questions: [],
-    //         answer: '',
-    //         value: ''
-    //     };
-    // }
 
     componentDidMount() {
         this.props.dispatch(actions.getQuestion());
-        // const accessToken = Cookies.get('accessToken');
-        // fetch('/api/questions', {
-        //         headers: {
-        //             'Authorization': `Bearer ${accessToken}`
-        //         }
-        //     }).then(res => {
-        //     if (!res.ok) {
-        //         throw new Error(res.statusText);
-        //     }
-        //     return res.json();
-        // }).then(questions =>
-        //     this.setState({
-        //         questions
-        //     })
-        // );
     }
 
     onSubmit(event) {
         event.preventDefault();
         //make compare action here
         //action makes the fetch to the database to see if userinput is the same as current answer
-        console.log(this.state.value)
+        // console.log("hellloooooooooo", this.state.value)
+        // console.log("hellloooooooooo props", this.props.value)
+        this.props.dispatch(actions.putQuestion(this.state.value))
     }
 
     onChange(value) {

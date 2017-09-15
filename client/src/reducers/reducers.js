@@ -21,7 +21,15 @@ else if (action.type === actions.GET_QUESTION_SUCCESS) {
   console.log('action word --===-=-=-=', action.word)
   state.question = action.word
 }
-
+else if (action.type === actions.PUT_QUESTION_SUCCESS) {
+  console.log('STATE', state)
+ return {
+            ...state,
+            question: action.word,
+            score: action.score
+        }
+}
+console.log('STATE 2', state)
 
   // switch (action.type) {  
   //       case actions.AUTH_SUCCESS:

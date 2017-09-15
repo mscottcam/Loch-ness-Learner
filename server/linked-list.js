@@ -70,6 +70,8 @@ const convertArray = array => {
   return list.get(0);
 };
 
+// ** refactor to convert once on login, once on logout **
+
 const algorithm = (question, userAnswer, correctAnswer, score, wordsArray) => {
   convertArray(wordsArray);
   // call get method to retrieve value
@@ -89,6 +91,7 @@ const algorithm = (question, userAnswer, correctAnswer, score, wordsArray) => {
     // call remove to remove head
     list.remove(0);
     // call question 0 again
+    console.log('SCORE 1........', score)
     return list.get(0);
   } else {
     // call get for value
@@ -96,8 +99,10 @@ const algorithm = (question, userAnswer, correctAnswer, score, wordsArray) => {
     list.insert(2, value)
     // call remove to remove head
     list.remove(0)
+    console.log('SCORE 2........', score)
     return list.get(0);
   }
+  
 };
 
 //func algorithm (ques, ans) {if submitted val for ques1 = ans1, then node = node.next  return node}
