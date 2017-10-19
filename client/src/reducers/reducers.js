@@ -13,26 +13,25 @@ export const reducer = (state=initialState, action) => {
    let copyState = state || initialState;
     state = Object.assign({}, copyState);
 if(action.type === actions.AUTH_SUCCESS) {
-  // action.test = 'whoopie'
-  // console.log(action, 'haalllo')
-  state.currentUser = action.googleId
+  return ({
+    ...state,
+    currentUser: action.googleId
+  })
 }
 else if (action.type === actions.GET_QUESTION_SUCCESS) {
-  // console.log('action word --===-=-=-=', action.word)
-  state.question = action.word
+  return ({
+    ...state,
+    question: action.word
+  })
 }
 else if (action.type === actions.PUT_QUESTION_SUCCESS) {
   console.log('action word', action.word)
-  state.question = action.word.question
-  // state.currentAnswer = action.answer,
-  state.score = action.score
-//  return {
-//             ...state,
-//             question: action.word,
-//             currentAnswer: action.answer,
-//             score: action.score
-//         }
-        
+  return ({
+    ...state,
+    question: action.word.question,
+    currentAnswer: action.word.answer,
+    score: action.score
+  })
 }
 console.log('STATE 2', state)
 

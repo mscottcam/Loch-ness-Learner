@@ -68,10 +68,6 @@ const convertArray = (array) => {
 
 const algorithm = (question, userAnswer, correctAnswer, score, wordsArray) => {
   convertArray(wordsArray);
-  console.log('user answer', userAnswer)
-  console.log('corr answer', correctAnswer)
-  console.log('ques', question)
-  // call get method to retrieve value
   let value = list.get(0);
   if (userAnswer === correctAnswer) {
     score++;
@@ -91,7 +87,8 @@ const algorithm = (question, userAnswer, correctAnswer, score, wordsArray) => {
     console.log(list)
     console.log('SCORE 1........', score)
     return {question: list.get(0), userScore: score};
-  } else {
+  } 
+  if (userAnswer !== correctAnswer) {
     // call get for value
     // call insert with value and standard position
     list.insert(2, list.get(0))

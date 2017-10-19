@@ -110,7 +110,6 @@ export const getQuestion = () => dispatch => {
 };
 
 export const putQuestion = data => dispatch => {
-  // console.log('data', data)
   const accessToken = Cookies.get('accessToken');
   const opts = {
     method: 'POST',
@@ -133,8 +132,6 @@ export const putQuestion = data => dispatch => {
           return res.json()
         })
         .then(input => {
-            // console.log('in then')
-            // console.log('input', input);
             dispatch(putQuestionSuccess(input.question, input.userScore))
         })
         .catch((err) => {

@@ -2,8 +2,13 @@ import React from 'react';
 // import * as Cookies from 'js-cookie';
 import * as actions from '../actions/actions'
 import {connect} from 'react-redux'
-let boo;
 class QuestionPage extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            value: ''
+        }
+    }
 
     componentDidMount() {
         this.props.dispatch(actions.getQuestion());
@@ -11,20 +16,14 @@ class QuestionPage extends React.Component {
     
     onSubmit(event) {
         event.preventDefault();
-        //make compare action here
-        //action makes the fetch to the database to see if userinput is the same as current answer
-        // console.log("hellloooooooooo", boo)
-        // console.log("hellloooooooooo props", this.props.value)
-        // console.log('QUESTIONNN', this.props.currentAnswer)
-        this.props.dispatch(actions.putQuestion(boo))
+        this.props.dispatch(actions.putQuestion(this.state.value))
         // this.props.dispatch(actions.getQuestion());
     }
 
-    onChange(value) {
-        // console.log(value.target.value)
-        boo = value.target.value;
+    onChange(event) {
+        // boo = value.target.value;
         // console.log('boooo', boo)
-        this.setState({value: value.target.value})
+        this.setState({value: event.target.value})
     }
 
     render() {
