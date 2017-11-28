@@ -25,7 +25,7 @@ else if (action.type === actions.GET_QUESTION_SUCCESS) {
   })
 }
 else if (action.type === actions.PUT_QUESTION_SUCCESS) {
-  console.log('action word', action.word)
+  console.log('action word', action)
   return ({
     ...state,
     question: action.word.question,
@@ -35,7 +35,7 @@ else if (action.type === actions.PUT_QUESTION_SUCCESS) {
 }
 console.log('STATE 2', state)
 
-  // switch (action.type) {  
+  // switch (action.type) {
   //       case actions.AUTH_SUCCESS:
   //       state.currentAnswer = 'henry'
   //     // return Object.assign({}, initialState, {
@@ -45,7 +45,7 @@ console.log('STATE 2', state)
   //     return Object.assign({}, initialState, {
   //       question: action.word
   //     })
-    // case actions.PUT_QUESTION_SUCCESS: 
+    // case actions.PUT_QUESTION_SUCCESS:
     //   return Object.assign({}, initialState, {
     //     question: action.word,
     //     score: action.score

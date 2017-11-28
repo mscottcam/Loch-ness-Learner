@@ -3,51 +3,43 @@ import React from 'react';
 import * as actions from '../actions/actions'
 import {connect} from 'react-redux'
 class QuestionPage extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            value: ''
-        }
+  constructor() {
+    super();
+    this.state = {
+          value: ''
     }
+  }
 
-    componentDidMount() {
-        this.props.dispatch(actions.getQuestion());
-    }
-    
-    onSubmit(event) {
-        event.preventDefault();
-        this.props.dispatch(actions.putQuestion(this.state.value))
-        // this.props.dispatch(actions.getQuestion());
-    }
+  componentDidMount() {
+    console.log('componentDidMount ran')
+    this.props.dispatch(actions.getQuestion());
+  }
 
-    onChange(event) {
-        // boo = value.target.value;
-        // console.log('boooo', boo)
-        this.setState({value: event.target.value})
-    }
+  onSubmit(event) {
+    event.preventDefault();
+    this.props.dispatch(actions.putQuestion(this.state.value))
+    document.getElementById("question-form").reset()
+  }
 
-    render() {
-        // const questions = this.state.question.map((question, index) =>
-        //     <li key={index}>{this.props.question}</li>
-        // );
+  onChange(event) {
+    this.setState({value: event.target.value})
+  }
 
-        return (
-            <div>
-            <ul className="question-list">
-                {this.props.question}
-            </ul>
-            <p>Your Score is {this.props.score}</p>
-            <form onSubmit={e => this.onSubmit(e)}>
-                <input type='text' placeholder="Your answer here!" 
-                onChange={e => this.onChange(e)}
-                />
-                <button type="submit">Submit Answer</button>
-            </form> 
-
-            <a href="/api/auth/logout">logout</a>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        <ul className="question-list">
+          {this.props.question}
+        </ul>
+        <p>Your Score is {this.props.score}</p>
+        <form id="question-form" onSubmit={e => this.onSubmit(e)}>
+          <input type='text' placeholder="Your answer here!" onChange={e => this.onChange(e)}/>
+          <button type="submit">Submit Answer</button>
+        </form>
+        <a href="/api/auth/logout">logout</a>
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = (state, props) => ({

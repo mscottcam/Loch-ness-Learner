@@ -5,15 +5,12 @@ class LinkedList {
     this.length = 0;
     this.head = null;
   }
-
   // Insertion
   insert(nthPosition, value) {
     if (nthPosition < 0 || nthPosition > this.length) {
       throw new Error('nthPosition error');
     }
-    const newNode = {
-      value
-    };
+    const newNode = { value };
     if (nthPosition === 0) {
       newNode.next = this.head;
       this.head = newNode;
@@ -31,7 +28,6 @@ class LinkedList {
     }
     return node;
   }
-
   // Retrieval
   get(nthPosition) {
     if (nthPosition < 0 || nthPosition >= this.length) {
@@ -39,7 +35,6 @@ class LinkedList {
     }
     return this._find(nthPosition).value;
   }
-
   // Removal
   remove(nthPosition) {
     if (nthPosition < 0 || nthPosition >= this.length) {
@@ -65,12 +60,10 @@ const convertArray = (array) => {
 };
 // ** refactor to convert once on login, once on logout **
 
-
 const algorithm = (question, userAnswer, correctAnswer, score, wordsArray) => {
   convertArray(wordsArray);
   let value = list.get(0);
   if (userAnswer === correctAnswer) {
-    score++;
     // call end method to get correct nth position
     let node = list.head;
     let counter = 0;
@@ -84,17 +77,17 @@ const algorithm = (question, userAnswer, correctAnswer, score, wordsArray) => {
     // call remove to remove head
     list.remove(0);
     // call question 0 again
-    console.log(list)
-    console.log('SCORE 1........', score)
-    return {question: list.get(0), userScore: score};
+    console.log('current list!', list)
+    score = score + 1;
+    console.log('user score after getting question right', score)
+    return {question: list.get(0), userScore: score, list: list};
   }
-  if (userAnswer !== correctAnswer) {
-    // call get for value
-    // call insert with value and standard position
+  // if (userAnswer !== correctAnswer)
+  else {
+    console.log('got here --->')
+    console.log('user score after getting question wrong', score)
     list.insert(2, list.get(0))
-    // call remove to remove head
     list.remove(0)
-    console.log('SCORE 2........', list)
     return {question: list.get(0), userScore: score, list: list};
   }
 };

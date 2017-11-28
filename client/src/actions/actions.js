@@ -48,7 +48,7 @@ export const authSuccess = (googleId) => ({
 // export const authSuccess = (googleId) => {
 //   //console.log('googleId', googleId.googleId);
 //   return {type: AUTH_SUCCESS, test: 'HIIIIIEEEE'}
- 
+
 // };
 
 export const AUTH_ERROR = 'AUTH_ERROR';
@@ -80,9 +80,9 @@ export const authenticate = () => dispatch => {
         return res.json();
         //change under this to redux
       })
-      .then(currentUser => { 
+      .then(currentUser => {
         // console.log(currentUser, 'user')
-        return dispatch(authSuccess(currentUser)); 
+        return dispatch(authSuccess(currentUser));
       });
   }
 };
@@ -132,6 +132,7 @@ export const putQuestion = data => dispatch => {
           return res.json()
         })
         .then(input => {
+          console.log('INPUT', input);
             dispatch(putQuestionSuccess(input.question, input.userScore))
         })
         .catch((err) => {
