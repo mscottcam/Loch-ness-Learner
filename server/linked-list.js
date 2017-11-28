@@ -87,7 +87,7 @@ const algorithm = (question, userAnswer, correctAnswer, score, wordsArray) => {
     console.log(list)
     console.log('SCORE 1........', score)
     return {question: list.get(0), userScore: score};
-  } 
+  }
   if (userAnswer !== correctAnswer) {
     // call get for value
     // call insert with value and standard position
