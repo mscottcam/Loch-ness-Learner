@@ -134,16 +134,13 @@ app.post('/api/questions/update', passport.authenticate('bearer', {
     session: false
   }),
   (req, res) => {
-    console.log('server data coming from front ====>', req.body)
     User
       .findOneAndUpdate({
         googleId: req.user.googleId
       })
       .then(user => {
         const algorithmOutcome = algorithm(user.words[0].question, req.body.data, user.words[0].answer, user.score, user.words)
-        console.log('algoOutcome ==========>>>>', algorithmOutcome.userScore)
         user.score = algorithmOutcome.userScore
-
         user.words = convertList(algorithmOutcome.list)
         user.save();
         return res.json(algorithmOutcome)

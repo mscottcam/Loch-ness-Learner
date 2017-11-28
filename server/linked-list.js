@@ -64,7 +64,6 @@ const algorithm = (question, userAnswer, correctAnswer, score, wordsArray) => {
   convertArray(wordsArray);
   let value = list.get(0);
   if (userAnswer === correctAnswer) {
-    // call end method to get correct nth position
     let node = list.head;
     let counter = 0;
     while (node !== null) {
@@ -72,26 +71,16 @@ const algorithm = (question, userAnswer, correctAnswer, score, wordsArray) => {
       node = node.next;
     }
     const position = counter;
-    // call insert method with value/position from last two steps
     list.insert(position, value);
-    // call remove to remove head
     list.remove(0);
-    // call question 0 again
-    console.log('current list!', list)
     score = score + 1;
-    console.log('user score after getting question right', score)
     return {question: list.get(0), userScore: score, list: list};
-  }
-  // if (userAnswer !== correctAnswer)
-  else {
-    console.log('got here --->')
-    console.log('user score after getting question wrong', score)
+  } else {
     list.insert(2, list.get(0))
     list.remove(0)
     return {question: list.get(0), userScore: score, list: list};
   }
 };
-
 
 const convertList = () => {
   let toArray = [];
