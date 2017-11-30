@@ -146,7 +146,7 @@ app.post('/api/questions/update', passport.authenticate('bearer', {
         return res.json(algorithmOutcome)
       })
       .catch(err => {
-        console.log('Put failed!', err);
+        console.log('Post failed!', err);
         res.status(500).json({
           message: 'Internal error from PUT'
         });

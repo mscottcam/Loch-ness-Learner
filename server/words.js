@@ -1,4 +1,4 @@
-const words = [ 
+const words = [
     {question: 'halò', answer: 'hello'},
     {question: 'mar sin leat', answer: 'goodbye'},
     {question: 'balach', answer: 'boy'},
@@ -8,6 +8,7 @@ const words = [
     {question: 'sona', answer: 'happy'},
     {question: 'brònach', answer: 'sad'},
     {question: 'mòr', answer: 'big'},
-    {question: 'beag', answer: 'small'} ]
+    {question: 'beag', answer: 'small'}
+]
 
 module.exports = { words }

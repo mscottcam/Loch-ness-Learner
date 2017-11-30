@@ -52,17 +52,16 @@ class LinkedList {
 
 const list = new LinkedList();
 
-const convertArray = (array) => {
+const insertListFromArray = (array) => {
   for (let i = 0; i < array.length; i++) {
     list.insert(i, array[i]);
   }
-  return list.get(0);
 };
 // ** refactor to convert once on login, once on logout **
 
 const algorithm = (question, userAnswer, correctAnswer, score, wordsArray) => {
-  convertArray(wordsArray);
-  let value = list.get(0);
+
+  let value = ;
   if (userAnswer === correctAnswer) {
     let node = list.head;
     let counter = 0;
@@ -74,10 +73,12 @@ const algorithm = (question, userAnswer, correctAnswer, score, wordsArray) => {
     list.insert(position, value);
     list.remove(0);
     score = score + 1;
+    console.log('correct, here is the list ---->', list);
     return {question: list.get(0), userScore: score, list: list};
   } else {
     list.insert(2, list.get(0))
     list.remove(0)
+    console.log('incorrect, here is the list ---->', list);
     return {question: list.get(0), userScore: score, list: list};
   }
 };
@@ -103,6 +104,6 @@ const convertList = () => {
 //   algorithm('question', 'right', 'right', 0, testArray)
 // );
 
-module.exports = { algorithm, convertArray, convertList };
+module.exports = { LinkedList, algorithm, convertArray, convertList };
 
 //in server, need -> const { Algorithm } = require('./Algorithm'); and const list = new LinkedList();

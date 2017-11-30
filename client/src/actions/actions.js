@@ -96,7 +96,7 @@ export const getQuestion = () => dispatch => {
     }
   }).then(res => {
       if (!res.ok) {
-        console.log('its dead');
+        console.log('response not green in getQuestion fetch');
         return Promise.reject(res.statusText);
       }
       // console.log('hello!');
@@ -123,16 +123,13 @@ export const putQuestion = data => dispatch => {
   dispatch(putQuestionRequest());
     fetch('/api/questions/update', opts)
         .then(res => {
-          // console.log('TESTTTTTTT', res.body)
           if (!res.ok) {
-            console.log('it doesnt work');
+            console.log('response not green in putQuestion fetch');
             return Promise.reject(res.statusText);
           }
-          // console.log('JSONNN', res.json)
           return res.json()
         })
         .then(input => {
-          console.log('INPUT', input);
             dispatch(putQuestionSuccess(input.question, input.userScore))
         })
         .catch((err) => {
